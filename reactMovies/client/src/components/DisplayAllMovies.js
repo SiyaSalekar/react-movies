@@ -48,11 +48,11 @@ export default class DisplayAllMovies extends Component
                                   <div className="table-container">
 
 
-                                      <div className="add-new-car">
-                                          <Link className="add-button" to={"/AddMovie"}>Add New Movie</Link>
-                                       </div>
-<MoviesTable movies={this.state.movies} />
 
+<MoviesTable movies={this.state.movies} />
+<div className="add-new-car">
+                                          <Link className="add-button" to={"/AddMovie"}>Add Movie</Link>
+                                       </div>
                                   </div>
                               </div>
                )
