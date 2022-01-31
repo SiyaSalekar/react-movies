@@ -34,18 +34,18 @@ router.post(`/movies`, (req, res) =>
 
   // validate input
       const today = new Date();
-      if(!/^[a-zA-Z]+$/.test(req.body.model))
+      if(!/^[a-zA-Z]+$/.test(req.body.title))
       {
           res.json({errorMessage:`Title must be a string`});
       }
-      else if(!/^[a-zA-Z]+$/.test(req.body.colour))
+       if(!/^[a-zA-Z]+$/.test(req.body.director))
       {
           res.json({errorMessage:`Director must be a string`});
       }
 
       else if(req.body.year < 1990)
             {
-                res.json({errorMessage:`Year must be greater than 1950`});
+                res.json({errorMessage:`Year must be greater than 1950 and less than current year`});
             }
 
 

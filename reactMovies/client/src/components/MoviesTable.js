@@ -1,26 +1,61 @@
-import React, { Component } from 'react';
-import MovieTableRow from './MovieTableRow';
+import React, { Component, useState, useEffect } from "react";
+import MovieTableRow from "./MovieTableRow";
 
-export default class MoviesTable extends Component
-{
-    constructor(props) 
-    {
-        super(props);
-        this.state = {movies: this.props.movies};
-    }
+export default function MovieTable({ movies }) {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredMovies,setFilteredMovies] = useState([])
 
+  useEffect(()=>{
+    setFilteredMovies(movies.filter(m => m.title.toLowerCase().includes(searchQuery.toLowerCase())))
+  },[searchQuery])
 
-    render() 
-    {
-        return (
-                <table>
-                  
-                  <tbody>
-                    {this.props.movies.map((movie) => <MovieTableRow key={movie.id} movie={movie}/>)}
+  useEffect(()=>{
+    console.log(movies,"here");
+    setFilteredMovies(movies);
+  },[movies])
 
-                  </tbody>
-                </table>
-
-               );
-    }
+  return (
+    <table>
+      <div className = "search">Search
+      <input className="search-input" value={searchQuery} onChange={(e)=>{setSearchQuery(e.target.value)}} /></div>
+      <tbody>
+        {filteredMovies.map((movie) => (
+          <MovieTableRow key={movie.id} movie={movie} />
+        ))}
+      </tbody>
+    </table>
+  );
 }
+
+// export default class MoviesTable extends Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       movies: this.props.movies,
+//       searchQuery: "",
+//       filteredMovies: [],
+//     };
+//   }
+
+//   handleSearch = (e) => {
+//     // this.setState({searchQuery:e.target.value})
+//     const newMovies = this.state.movies.filter((m) =>
+//       m.title.toLowerCase().includes(e.target.value.toLowerCase())
+//     );
+
+//     this.setState({filteredMovies:[...newMovies]})
+//   };
+
+//   render() {
+//     return (
+//       <table>
+//         <input value={this.state.searchQuery} onChange={this.handleSearch} />
+//         <tbody>
+//           {this.state.filteredMovies.map((movie) => (
+//             <MovieTableRow key={movie.id} movie={movie} />
+//           ))}
+//         </tbody>
+//       </table>
+//     );
+//   }
+// }

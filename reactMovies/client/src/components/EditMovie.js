@@ -22,7 +22,11 @@ export default class EditMovie extends Component {
       allGenre: ["Action",
                        "Comedy",
                        "Drama",
+                       "Crime",
+                       "Music",
+                       "Adventure",
                        "Fantasy",
+                       "History",
                        "Horror",
                        "Mystery",
                        "Romance",
@@ -123,7 +127,7 @@ export default class EditMovie extends Component {
   validateYear() {
     const year = parseInt(this.state.year);
     //  const today = new Date()
-    return year >= 1950;
+    return year >= 1950 && year<=2023;
   }
 
   validateRuntime() {
@@ -135,32 +139,41 @@ export default class EditMovie extends Component {
     const pattern = /^[A-Za-z,]+$/;
     return pattern.test(String(this.state.genres));
   }
-
+  validateDirector(){
+      const pattern = /^[0-9a-zA-Z\s]+$/;
+      return pattern.test(String(this.state.director));
+  }
   validate() {
     return {
       title: this.validateTitle(),
       year: this.validateYear(),
       runtime: this.validateRuntime(),
       genres: this.validateGenres(),
+      director:this.validateDirector()
     };
   }
 
   render() {
-    // let errorMessage = ""
 
+let errorMessage = "";
+    if (this.state.wasSubmittedAtLeastOnce) {
+      errorMessage = (
+        <div className="error">
+          Movie Details are incorrect
+          <br />
+        </div>
+      );
+    }
     let titleErrorMessage = "";
     let yearErrorMessage = "";
     let runtimeErrorMessage = "";
     let genresErrorMessage = "";
-    //                if(this.state.wasSubmittedAtLeastOnce)
-    //                {
-    //                    errorMessage = <div className="error">Movie Details are incorrect<br/></div>;
-    //                }
+    let directorErrorMessage = "";
 
     if (!this.validateTitle()) {
       titleErrorMessage = (
         <div className="error">
-          Title must contain only letters
+          Title must be a String
           <br />
         </div>
       );
@@ -168,7 +181,7 @@ export default class EditMovie extends Component {
     if (!this.validateYear()) {
       yearErrorMessage = (
         <div className="error">
-          Year must contain only numbers
+        Year must be greater than 1950 and less than current year
           <br />
         </div>
       );
@@ -184,10 +197,18 @@ export default class EditMovie extends Component {
     if (!this.validateGenres()) {
       genresErrorMessage = (
         <div className="error">
-          Genre must be only letters <br />
+          Include atleast one genre
         </div>
       );
     }
+    if (!this.validateDirector()) {
+          directorErrorMessage = (
+            <div className="error">
+              Director must be a String
+              <br />
+            </div>
+          );
+        }
 
     return (
       <div className="form-add-container">
@@ -197,7 +218,7 @@ export default class EditMovie extends Component {
 
         <Form>
           <Form.Group controlId="title">
-            <Form.Label>Title</Form.Label>
+            <Form.Label className="add-in">Title</Form.Label>
             <Form.Control
               ref={(input) => {
                 this.inputToFocus = input;
@@ -211,7 +232,7 @@ export default class EditMovie extends Component {
           </Form.Group>
 
           <Form.Group controlId="plot">
-            <Form.Label>Plot</Form.Label>
+            <Form.Label  className="add-in">Plot</Form.Label>
             <Form.Control
               ref={(input) => {
                 this.inputToFocus = input;
@@ -224,7 +245,7 @@ export default class EditMovie extends Component {
           </Form.Group>
 
           <Form.Group controlId="actors">
-            <Form.Label>Actors</Form.Label>
+            <Form.Label className="add-in">Actors</Form.Label>
             <Form.Control
               ref={(input) => {
                 this.inputToFocus = input;
@@ -237,7 +258,7 @@ export default class EditMovie extends Component {
           </Form.Group>
 
           <Form.Group controlId="posterURL">
-            <Form.Label>Poster</Form.Label>
+            <Form.Label className="add-in">Poster</Form.Label>
             <Form.Control
               type="text"
               name="posterUrl"
@@ -247,7 +268,7 @@ export default class EditMovie extends Component {
           </Form.Group>
 
           <Form.Group controlId="year">
-            <Form.Label>Year</Form.Label>
+            <Form.Label className="add-in">Year</Form.Label>
             <Form.Control
               type="text"
               name="year"
@@ -258,7 +279,7 @@ export default class EditMovie extends Component {
           </Form.Group>
 
           <Form.Group controlId="runtime">
-            <Form.Label>Runtime</Form.Label>
+            <Form.Label className="add-in">Runtime</Form.Label>
             <Form.Control
               type="text"
               name="runtime"
@@ -269,11 +290,12 @@ export default class EditMovie extends Component {
           </Form.Group>
 
           <Form.Group controlId="genres">
-            <Form.Label>Genres</Form.Label>
+            <Form.Label className="add-in">Genres</Form.Label>
             {/* <Form.Control type="text" name="genres" value={this.state.genres} onChange={this.handleGenreChange} /> */}
             {this.state.allGenre.map((genre) => (
               <Form.Check
                 type="checkbox"
+                className="genres-list"
                 id={`default-checkbox`}
                 label={genre}
                 checked = {this.state.genres.some(a => a === genre)}
@@ -281,28 +303,30 @@ export default class EditMovie extends Component {
               />
             ))}
             {
-                this.state.genres.map(g => <div>{g}</div>)
+                this.state.genres.map(g => <div className="gen">{g}</div>)
             }
-            {/* {genresErrorMessage} */}
+            {genresErrorMessage}
           </Form.Group>
           <Form.Group controlId="director">
-            <Form.Label>Director</Form.Label>
+            <Form.Label className="add-in">Director</Form.Label>
             <Form.Control
               type="text"
               name="director"
               value={this.state.director}
               onChange={this.handleChange}
             />
-            {genresErrorMessage}
+            {directorErrorMessage}
           </Form.Group>
+
+          {errorMessage}
 
           <LinkInClass
             value="Update"
-            className="add-form-add-button"
+            className="in-card-button-add"
             onClick={this.handleSubmit}
           />
 
-          <Link className="add-form-button" to={"/DisplayAllMovies"}>
+          <Link className="in-card-button-cancel" to={"/DisplayAllMovies"}>
             Cancel
           </Link>
         </Form>

@@ -7,7 +7,7 @@ let movieSchema = new mongoose.Schema(
            year: {type: Number},
            runtime: {type: Number},
            genres: {type: Array},
-           director: {type: String},
+           director: {type: String,required:true},
            actors: {type: String},
            plot: {type: String}
 

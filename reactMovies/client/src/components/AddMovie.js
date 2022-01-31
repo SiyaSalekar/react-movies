@@ -23,9 +23,13 @@ export default class AddMovie extends Component {
       allGenre: ["Action",
                  "Comedy",
                  "Drama",
+                 "Crime",
+                 "Music",
                  "Fantasy",
                  "Horror",
                  "Mystery",
+                 "Adventure",
+                 "History",
                  "Romance",
                  "Thriller",
                  "Western"],
@@ -102,7 +106,7 @@ export default class AddMovie extends Component {
   validateYear() {
     const year = parseInt(this.state.year);
     //   const today = new Date()
-    return year >= 1950;
+    return year >= 1950 && year<=2023;
   }
   validateRuntime() {
     const pattern = /^[0-9]/;
@@ -126,7 +130,7 @@ export default class AddMovie extends Component {
     if (this.state.wasSubmittedAtLeastOnce) {
       errorMessage = (
         <div className="error">
-          Car Details are incorrect
+          Movie Details are incorrect
           <br />
         </div>
       );
@@ -157,7 +161,7 @@ export default class AddMovie extends Component {
     if (!this.validateYear()) {
       yearErrorMessage = (
         <div className="error">
-          Year must be greater than 1950
+          Year must be greater than 1950 and less than current year
           <br />
         </div>
       );
@@ -173,7 +177,7 @@ export default class AddMovie extends Component {
     if (!this.validateGenres()) {
       genresErrorMessage = (
         <div className="error">
-          Genres must be letters only <br />
+          Include atleast one genre <br />
         </div>
       );
     }
@@ -186,7 +190,7 @@ export default class AddMovie extends Component {
 
         <Form>
           <Form.Group controlId="title">
-            <Form.Label>Title</Form.Label>
+            <Form.Label className="add-in">Title</Form.Label>
             <Form.Control
               ref={(input) => {
                 this.inputToFocus = input;
@@ -200,7 +204,7 @@ export default class AddMovie extends Component {
           </Form.Group>
 
           <Form.Group controlId="plot">
-            <Form.Label>Plot</Form.Label>
+            <Form.Label className="add-in">Plot</Form.Label>
             <Form.Control
               ref={(input) => {
                 this.inputToFocus = input;
@@ -213,7 +217,7 @@ export default class AddMovie extends Component {
           </Form.Group>
 
           <Form.Group controlId="actors">
-            <Form.Label>Actors</Form.Label>
+            <Form.Label className="add-in">Actors</Form.Label>
             <Form.Control
               ref={(input) => {
                 this.inputToFocus = input;
@@ -226,7 +230,7 @@ export default class AddMovie extends Component {
           </Form.Group>
 
           <Form.Group controlId="posterURL">
-            <Form.Label>Poster</Form.Label>
+            <Form.Label className="add-in">Poster</Form.Label>
             <Form.Control
               type="text"
               name="posterUrl"
@@ -236,7 +240,7 @@ export default class AddMovie extends Component {
           </Form.Group>
 
           <Form.Group controlId="year">
-            <Form.Label>Year</Form.Label>
+            <Form.Label className="add-in">Year</Form.Label>
             <Form.Control
               type="text"
               name="year"
@@ -247,7 +251,7 @@ export default class AddMovie extends Component {
           </Form.Group>
 
           <Form.Group controlId="runtime">
-            <Form.Label>Runtime</Form.Label>
+            <Form.Label className="add-in">Runtime</Form.Label>
             <Form.Control
               type="text"
               name="runtime"
@@ -258,24 +262,28 @@ export default class AddMovie extends Component {
           </Form.Group>
 
           <Form.Group controlId="genres">
-            <Form.Label>Genres</Form.Label>
+            <Form.Label className="add-in">Genres</Form.Label>
             {/* <Form.Control type="text" name="genres" value={this.state.genres} onChange={this.handleGenreChange} /> */}
             {this.state.allGenre.map((genre) => (
               <Form.Check
                 type="checkbox"
+                className="genres-list"
                 id={`default-checkbox`}
                 label={genre}
                 onChange={this.handleGenreChange}
               />
             ))}
+
             {
-                this.state.genres.map(g => <div>{g}</div>)
+
+                this.state.genres.map(g => <div className="gen">{g}</div>)
+
             }
-            {/* {genresErrorMessage} */}
+{genresErrorMessage}
           </Form.Group>
 
           <Form.Group controlId="director">
-            <Form.Label>Director</Form.Label>
+            <Form.Label className="add-in">Director</Form.Label>
             <Form.Control
               type="text"
               name="director"
@@ -288,11 +296,11 @@ export default class AddMovie extends Component {
 
           <LinkInClass
             value="Add"
-            className="add-form-add-button"
+            className="in-card-button-add"
             onClick={this.handleSubmit}
           />
 
-          <Link className="add-form-button" to={"/DisplayAllMovies"}>
+          <Link className="in-card-button-cancel" to={"/DisplayAllMovies"}>
             Cancel
           </Link>
         </Form>

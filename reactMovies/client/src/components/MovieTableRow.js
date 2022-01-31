@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { useState } from 'react'
+import { Rating } from 'react-simple-star-rating'
+
 
 export default class MovieTableRow extends Component {
   constructor(props) {
@@ -8,15 +11,32 @@ export default class MovieTableRow extends Component {
     this.state = {
       modalState: false,
       rating: 0,
+      curretRatingInput:0
     };
   }
+  const [rating, setRating] = useState(0)
+
 
   toggleModal = () =>{
     this.setState(prevState => ({modalState: !prevState.modalState}))
   }
 
-  handleRating = (e) =>{
-    this.setState({rating:e.target.value})
+//  handleRating = (e) =>{
+//    this.setState({curretRatingInput:e.target.value})
+//  }
+  const handleRating = (rate: number) => {
+      setRating(rate)
+      // other logic
+    }
+
+  handleSave = () =>{
+    if(this.state.curretRatingInput <0 || this.state.curretRatingInput >5){
+      alert("Rating should be between 0 and 5");
+      return;
+    }else{
+      this.setState({rating:this.state.curretRatingInput});
+      this.toggleModal();
+    }
   }
 
   render() {
@@ -31,13 +51,18 @@ export default class MovieTableRow extends Component {
               {this.props.movie.year}, {this.props.movie.director}
             </h4>
             <span class="minutes">{this.props.movie.runtime} min</span>
-            <p class="type">{this.props.movie.genres}</p>
+            {
+              this.props.movie.genres.map(genre => <p class="type">{genre}</p>)
+            }
+            {/* <p class="type">{this.props.movie.genres}</p> */}
           </div>
           <div class="rating" style={{display:`${this.state.modalState?'block':'none'}`}}>
             <div className="rate-quote">RATE THIS MOVIE:</div>
             <br/>
-            <input type="number" onChange={this.handleRating} min={0} max={5} value={this.state.rating}/>
+            <Rating onClick={handleRating} ratingValue={rating} /* Available Props */ />
+            <br/>
             <button className="rate-close" onClick={this.toggleModal}>close</button>
+            <button className="rate-save" onClick={this.handleSave}>save</button>
           </div>
 
           <div class="movie_desc">
