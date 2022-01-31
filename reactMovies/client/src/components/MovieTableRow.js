@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { useState } from 'react'
-import { Rating } from 'react-simple-star-rating'
+import StarRating from 'react-star-rating'
+
 
 
 export default class MovieTableRow extends Component {
@@ -14,20 +14,14 @@ export default class MovieTableRow extends Component {
       curretRatingInput:0
     };
   }
-  const [rating, setRating] = useState(0)
-
 
   toggleModal = () =>{
     this.setState(prevState => ({modalState: !prevState.modalState}))
   }
 
-//  handleRating = (e) =>{
-//    this.setState({curretRatingInput:e.target.value})
-//  }
-  const handleRating = (rate: number) => {
-      setRating(rate)
-      // other logic
-    }
+  handleRating = (e) =>{
+    this.setState({curretRatingInput:e.target.value})
+  }
 
   handleSave = () =>{
     if(this.state.curretRatingInput <0 || this.state.curretRatingInput >5){
@@ -59,7 +53,14 @@ export default class MovieTableRow extends Component {
           <div class="rating" style={{display:`${this.state.modalState?'block':'none'}`}}>
             <div className="rate-quote">RATE THIS MOVIE:</div>
             <br/>
-            <Rating onClick={handleRating} ratingValue={rating} /* Available Props */ />
+//            <input className = "rate-in" type="number" onChange={this.handleRating} value={this.state.curretRatingInput}/>
+            <form>
+
+                    <StarRating name="react-star-rating" caption="Rate this component!" totalStars={5} />
+
+                    <button type="submit" className="btn btn-primary">Submit Rating</button>
+
+                  </form>
             <br/>
             <button className="rate-close" onClick={this.toggleModal}>close</button>
             <button className="rate-save" onClick={this.handleSave}>save</button>
