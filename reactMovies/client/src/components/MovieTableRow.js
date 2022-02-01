@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import StarRating from 'react-star-rating'
-
-
+import StarRating from "react-star-ratings";
 
 export default class MovieTableRow extends Component {
   constructor(props) {
@@ -11,59 +9,81 @@ export default class MovieTableRow extends Component {
     this.state = {
       modalState: false,
       rating: 0,
-      curretRatingInput:0
+      curretRatingInput: 0,
     };
   }
 
-  toggleModal = () =>{
-    this.setState(prevState => ({modalState: !prevState.modalState}))
-  }
+  toggleModal = () => {
+    this.setState((prevState) => ({ modalState: !prevState.modalState }));
+  };
 
-  handleRating = (e) =>{
-    this.setState({curretRatingInput:e.target.value})
-  }
+  handleRating = (e) => {
+    this.setState({ curretRatingInput: e.target.value });
+  };
 
-  handleSave = () =>{
-    if(this.state.curretRatingInput <0 || this.state.curretRatingInput >5){
+  handleSave = () => {
+    if (this.state.curretRatingInput < 0 || this.state.curretRatingInput > 5) {
       alert("Rating should be between 0 and 5");
       return;
-    }else{
-      this.setState({rating:this.state.curretRatingInput});
+    } else {
+      this.setState({ rating: this.state.curretRatingInput });
       this.toggleModal();
     }
-  }
+  };
 
   render() {
     return (
       <div class="movie_card" id="bright">
         <div class="info_section">
           <div class="movie_header">
-            <img class="locandina" src={this.props.movie.posterUrl} alt=""/>
-            <div className="rated">{this.state.rating}/5 Rating</div>
+            <img class="locandina" src={this.props.movie.posterUrl} alt="" />
+            {/* <div className="rated">{this.state.rating}/5 Rating</div>
+             */}
+
+             <div className = "star-mains"><StarRating totalStars={5} rating={this.state.rating}/></div>
+
             <h1>{this.props.movie.title}</h1>
             <h4>
               {this.props.movie.year}, {this.props.movie.director}
             </h4>
             <span class="minutes">{this.props.movie.runtime} min</span>
-            {
-              this.props.movie.genres.map(genre => <p class="type">{genre}</p>)
-            }
+            {this.props.movie.genres.map((genre) => (
+              <p class="type">{genre}</p>
+            ))}
             {/* <p class="type">{this.props.movie.genres}</p> */}
           </div>
-          <div class="rating" style={{display:`${this.state.modalState?'block':'none'}`}}>
+          <div
+            class="rating"
+            style={{ display: `${this.state.modalState ? "block" : "none"}` }}
+          >
             <div className="rate-quote">RATE THIS MOVIE:</div>
-            <br/>
-//            <input className = "rate-in" type="number" onChange={this.handleRating} value={this.state.curretRatingInput}/>
-            <form>
-
-                    <StarRating name="react-star-rating" caption="Rate this component!" totalStars={5} />
-
-                    <button type="submit" className="btn btn-primary">Submit Rating</button>
-
-                  </form>
-            <br/>
-            <button className="rate-close" onClick={this.toggleModal}>close</button>
-            <button className="rate-save" onClick={this.handleSave}>save</button>
+            <br />
+            {/* //{" "}
+            <input
+              className="rate-in"
+              type="number"
+              onChange={this.handleRating}
+              value={this.state.curretRatingInput}
+            /> */}
+            {/* <form> */}
+              <StarRating
+                name="star"
+                caption="Rate this component!"
+                totalStars={5}
+                rating={this.state.curretRatingInput}
+                changeRating={(n,name)=>{this.setState({curretRatingInput:n})}}
+              />
+              <div className="submit-btn"><button className="submit-btn-in" type="submit" onClick={this.handleSave}>
+                Submit
+              </button></div>
+            {/* </form> */}
+            <br />
+            <button className="rate-close" onClick={this.toggleModal}>
+              close
+            </button>
+            {/* <button className="rate-save" onClick={this.handleSave}>
+              save
+            </button> */}
           </div>
 
           <div class="movie_desc">
@@ -83,8 +103,10 @@ export default class MovieTableRow extends Component {
               </li>
               <li>
                 <i class="material-icons">
-                  <Link className="in-card-button"
-                    to={"/DeleteMovie/" + this.props.movie._id}>
+                  <Link
+                    className="in-card-button"
+                    to={"/DeleteMovie/" + this.props.movie._id}
+                  >
                     Delete
                   </Link>
                 </i>
@@ -96,7 +118,6 @@ export default class MovieTableRow extends Component {
                   </button>
                 </i>
               </li>
-
             </ul>
           </div>
         </div>

@@ -46,13 +46,19 @@ nav {
 	background-color: #A77786;
 	border-radius: 20px;
 }
+.star-mains{
+float:right;
+}
+.stars:hover{
+color:green;
+}
 
 .in-card-button:hover {
 	text-decoration: none;
 	cursor: pointer;
 	margin-right: 16px;
 	color: white;
-	border: 3px solid black;
+	border: 2px solid black;
 }
 
 .in-card-button-add {
@@ -109,6 +115,8 @@ nav {
 }
 .genres-list{
 margin-bottom:14px;
+display: flex;
+      flex-wrap: wrap;
 }
 @media screen and (min-width:14px) {
 .gen {
@@ -140,13 +148,31 @@ margin-bottom:30px;
 #footer {
 	text-align: center;
 	width: 100%;
-	bottom: 0;
-	margin-bottom: 2px;
+	margin-bottom: 0px;
 	border: 0.5px solid black;
 	padding: 5px;
 	margin-top: 100px;
 	color: white;
 	background: black;
+	position:fixed;
+	bottom: 0px;
+}
+
+
+.submit-btn{
+float:right;
+margin-top:90px;
+margin-right:0px;
+}
+.submit-btn-in{
+color:black;
+background:green;
+border-radius:10px;
+}
+.submit-btn-in:hover{
+color:white;
+background:green;
+border-radius:10px;
 }
 
 .add-form-add-button,
@@ -247,10 +273,19 @@ font-weight:bold;
 }
 .rate-close{
 margin-top:40px;
-color:white;
-background:red;
+color:black;
+background:blue;
 border-radius:10px;
+
 }
+.rate-close:hover{
+margin-top:40px;
+color:white;
+background:blue;
+border-radius:10px;
+
+}
+
 .rate-save{
 margin-top:40px;
 margin-left:20px;

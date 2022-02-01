@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
+import { MailIcon } from 'react-mail-icon'
 
 import "./App.css";
 import DisplayAllMovies from "./components/DisplayAllMovies";
@@ -36,7 +37,7 @@ export default class App extends Component
                   </Switch>
                   
                       <footer id="footer">
-                             <div id="footerLink" href="https://www.dkit.ie/">All rights reserved DKIT 2021</div>
+                             <div id="footerLink" href="https://www.dkit.ie/">Contact us at <br />  info@dkit.ie <br /><br /> All rights reserved DkIT 2022</div>
                                    
                        </footer>
                   
